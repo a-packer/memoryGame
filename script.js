@@ -3,7 +3,15 @@ let firstCard, secondCard;
 let allowClick = true;
 let matchedCards = 0;
 let frontFace;
+let score = 0; //start score at 0, increase score for match (+5), decrease for no match (-2)
+h2 = document.querySelector('span')
+h3 = document.querySelector('h3')
+h2.innerText = score; //display initial score
 
+//------------------------------------------------------------------------------------------------------------------------
+// if local storage has 'high score' 
+  // set h3.innerText to `High Score: ${highScore value}` 
+//------------------------------------------------------------------------------------------------------------------------
 const COLORS = [
   "url('img/1.jpg')",
   "url('img/2.jpg')",
@@ -78,7 +86,6 @@ function createDivsForColors(colorArray) {
 function handleCardClick(event) {
   if (!allowClick) {return}
 
-
   selectedCard = event.target;
   if (selectedCard.classList.contains("flipped")) {return}
   setTimeout(function() {
@@ -107,6 +114,8 @@ function handleCardClick(event) {
       secondCard = null;
       allowClick = true;
       matchedCards += 2;
+      score += 5;
+      h2.innerText = score;
     } else {
       setTimeout(function() {
    
@@ -114,6 +123,8 @@ function handleCardClick(event) {
         secondCard.classList.remove("flipped");
         firstCard.style.backgroundImage = "url('cacti.jpg')";
         secondCard.style.backgroundImage = "url('cacti.jpg')";
+        score -= 2;
+        h2.innerText = score;
        
         firstCard = null;
         secondCard = null;
@@ -137,3 +148,13 @@ function handleCardClick(event) {
 createDivsForColors(shuffledColors);
 
 
+//------------------------------------------------------------------------------------------------------------------------
+// if local storage has 'high score'       
+  // compare score to high score
+  // if score > high score
+    // high score = score
+    // set local storage {'highScore': new high score}
+  // else high score doesn't change
+// else
+    // set local storage {'highScore': score}
+//------------------------------------------------------------------------------------------------------------------------
