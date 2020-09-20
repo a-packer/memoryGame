@@ -7,11 +7,15 @@ let score = 0; //start score at 0, increase score for match (+5), decrease for n
 h2 = document.querySelector('span')
 h3 = document.querySelector('h3')
 h2.innerText = score; //display initial score
+highScore = localStorage.getItem("highScore")
 
-//------------------------------------------------------------------------------------------------------------------------
-// if local storage has 'high score' 
-  // set h3.innerText to `High Score: ${highScore value}` 
-//------------------------------------------------------------------------------------------------------------------------
+// if local storage has 'high score' display it, otherwise display welcome message
+if (highScore) {
+  h3.innerText = `High Score: ${parseInt(highScore)}`;
+} else {
+  h3.innerHTML = '<em>Welcome!</em> High Score: TBD';
+}
+
 const COLORS = [
   "url('img/1.jpg')",
   "url('img/2.jpg')",
@@ -135,26 +139,31 @@ function handleCardClick(event) {
   }
 
   if (matchedCards == 16) {
-    setTimeout(function() {
-      alert("Game Over! You're a winner winner chicken dinner!"),
-       1000
+    
+    if (highScore) {      
+      if (highScore < score) {
+        highScore = score;
+        localStorage.setItem("highScore", `${highScore}`)
+        setTimeout(function() {
+          alert("Way to go! You beat your high score! You're a winner winner chicken dinner!")
+          }, 1500)
+      } 
+      else {
+        setTimeout(function() {
+          alert(`Good job! you got a score of ${score}. High score is still ${highScore}`)
+          }, 1500)
       }
-    )
+    }
+    else {
+      localStorage.setItem("highScore", score);
+      setTimeout(function() {
+        alert("Nice job on your first try!")
+        }, 1500)
+    }
   }
-
 }
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
 
 
-//------------------------------------------------------------------------------------------------------------------------
-// if local storage has 'high score'       
-  // compare score to high score
-  // if score > high score
-    // high score = score
-    // set local storage {'highScore': new high score}
-  // else high score doesn't change
-// else
-    // set local storage {'highScore': score}
-//------------------------------------------------------------------------------------------------------------------------

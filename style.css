@@ -33,7 +33,7 @@ div#gameboard {
   background-position : center;
   border-radius : 20px;
 }
-
+/* when card is clicked */
 .memory-card:active {
   transform: scale(.5);
   transition: transform 1s;
